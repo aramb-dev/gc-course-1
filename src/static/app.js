@@ -1,11 +1,6 @@
-if (process.env.NODE_ENV === "development") {
-  console.log("JavaScript file loaded successfully!");
-}
+ document.addEventListener("DOMContentLoaded", () => {
+ console.log("DOM loaded, starting app initialization...");
 
-document.addEventListener("DOMContentLoaded", () => {
-  if (process.env.NODE_ENV === "development") {
-    console.log("DOM loaded, starting app initialization...");
-  }
   const activitiesList = document.getElementById("activities-list");
   const activitySelect = document.getElementById("activity");
   const signupForm = document.getElementById("signup-form");
