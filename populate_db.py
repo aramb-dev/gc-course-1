@@ -71,13 +71,14 @@ activities_data = {
     }
 }
 
+
 def populate_database():
     """Populate the database with initial activities data."""
     try:
         # Clear existing data
         activities_collection.delete_many({})
         print("Cleared existing activities data")
-        
+
         # Insert activities data
         for activity_name, activity_data in activities_data.items():
             document = {
@@ -87,24 +88,26 @@ def populate_database():
             }
             activities_collection.insert_one(document)
             print(f"Inserted activity: {activity_name}")
-        
-        print(f"\nSuccessfully populated database with {len(activities_data)} activities")
-        
+
+        print(
+            f"\nSuccessfully populated database with {len(activities_data)} activities")
+
         # Verify the data was inserted
         count = activities_collection.count_documents({})
         print(f"Total activities in database: {count}")
-        
+
         # Show sample data
         sample = activities_collection.find_one()
         if sample:
             print(f"\nSample activity document:")
             print(json.dumps(sample, indent=2, default=str))
-            
+
     except Exception as e:
         print(f"Error populating database: {e}")
         return False
-    
+
     return True
+
 
 if __name__ == "__main__":
     print("Populating MongoDB with activities data...")
