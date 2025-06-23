@@ -88,6 +88,16 @@ def get_activities():
     return activities
 
 
+@app.get("/debug/activities")
+def debug_activities():
+    """Debug endpoint to check activities data"""
+    return {
+        "total_activities": len(activities),
+        "sample_activity": list(activities.items())[0] if activities else None,
+        "all_activities": activities
+    }
+
+
 @app.post("/activities/{activity_name}/signup")
 def signup_for_activity(activity_name: str, email: str):
     """Sign up a student for an activity"""
@@ -102,6 +112,11 @@ def signup_for_activity(activity_name: str, email: str):
     if email in activity["participants"]:
         raise HTTPException(
             status_code=400, detail="Student is already signed up")
+
+    # Check if activity is full
+    if len(activity["participants"]) >= activity["max_participants"]:
+        raise HTTPException(
+            status_code=400, detail="Activity is full")
 
     # Add student
     activity["participants"].append(email)
